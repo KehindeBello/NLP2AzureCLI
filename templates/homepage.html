@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language to Azure CLI</title>
+    <link rel="stylesheet" href="/static/homepage.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Natural Language to Azure CLI</h1>
+            <a href="/logout" id="logoutButton" class="button">Logout</a>
+        </header>
+        <main>
+            <form id="nlpForm">
+                <label for="nlpInput">Enter your natural language prompt:</label>
+                <textarea id="nlpInput" name="nlpInput" rows="4" cols="50" placeholder="Enter your prompt here..."></textarea>
+                <a href="/convert" ><button type="submit">Convert to Azure CLI Command</button></a>
+            </form>
+            <div id="result"> </div>
+            <a href="/run"><button id="runCommandButton" style="display: none;">Run Command</button></a>
+        </main>
+    </div>
+    <script>
+        document.getElementById('nlpForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const nlpInput = document.getElementById('nlpInput').value;
+
+            fetch('/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nlpInput: nlpInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                console.log(data.azureCliCommand)
+                const escapedCommand = data.azureCliCommand.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                resultDiv.innerHTML = escapedCommand;
+                document.getElementById('runCommandButton').style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+    </script>
+</body>
+</html>
