@@ -9,16 +9,18 @@
 <body>
     <div class="login-container">
         <h2>Login to Azure CLI Converter</h2>
-        <form action="/login" method="POST">
+        <form id="loginForm" method="post", action="/login">
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Login</button>
+            <a href="/forgot_password" class="forgot-password">Forgot Password?</a>
+            <div id="loginResponse" class="error"></div>
         </form>
     </div>
 </body>
