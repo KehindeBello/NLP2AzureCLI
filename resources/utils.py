@@ -11,4 +11,6 @@ def hashPassword(password):
 
 def checkPassword(password, hashed_password):
     encoded_password = password.encode("utf-8")
+    #ensure hashed password is in bytes
+    hashed_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(password=encoded_password, hashed_password=hashed_password)
