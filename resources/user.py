@@ -8,7 +8,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from models import UserModel
 from marshmallow import ValidationError
-from schema import UserSchema, LoginSchema, AzureCredentialSchema
+from schema.schema import UserSchema, LoginSchema, AzureCredentialSchema
 from resources.utils import hashPassword, checkPassword
 from mail_extension import mail
 
