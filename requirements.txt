@@ -1,4 +1,14 @@
-langchain==0.2.5
-langchain_community==0.2.5
-langchain_openai==0.1.9
+Flask==3.0.3
+Flask_JWT_Extended==4.6.0
+Flask_Login==0.6.3
+flask_mail==0.10.0
+Flask_RESTful==0.3.10
+flask_sqlalchemy==3.1.1
+itsdangerous==2.2.0
+langchain==0.2.9
+langchain_community==0.2.7
+langchain_openai==0.1.17
+marshmallow==3.21.3
 python-dotenv==1.0.1
+python_bcrypt==0.3.2
+Requests==2.32.3
