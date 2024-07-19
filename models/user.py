@@ -1,6 +1,8 @@
 from db import db
+from resources.utils import hashPassword
+from flask_login import UserMixin
 
-class UserModel(db.Model):
+class UserModel(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -17,6 +19,6 @@ class UserModel(db.Model):
     def find_by_email(cls, email):
         return cls.query.filter_by(email = email).first()
     
-
-
-
+    def set_password(self, password):
+        self.password = hashPassword(password=password)
+        db.session.commit()        
