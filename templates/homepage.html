@@ -16,10 +16,14 @@
             <form id="nlpForm">
                 <label for="nlpInput">Enter your natural language prompt:</label>
                 <textarea id="nlpInput" name="nlpInput" rows="4" cols="50" placeholder="Enter your prompt here..."></textarea>
-                <a href="/convert" ><button type="submit">Convert to Azure CLI Command</button></a>
+                <button type="submit">Convert to Azure CLI Command</button>
             </form>
             <div id="result"> </div>
-            <a href="/run"><button id="runCommandButton" style="display: none;">Run Command</button></a>
+            <div id="optimizedCommandContainer" style="display: none;">
+                <label for="optimizedCommand">Optimized Command:</label>
+                <textarea id="optimizedCommand" name="optimizedCommand" rows="2" cols="50" placeholder="Enter your optimized command here..."></textarea>
+            </div>
+            <button id="runCommandButton" style="display: none;">Run Command</button></a>
         </main>
     </div>
     <script>
@@ -30,7 +34,7 @@
             fetch('/convert', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ nlpInput: nlpInput })
             })
@@ -40,11 +44,16 @@
                 console.log(data.azureCliCommand)
                 const escapedCommand = data.azureCliCommand.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                 resultDiv.innerHTML = escapedCommand;
+                document.getElementById('optimizedCommandContainer').style.display = 'block';
                 document.getElementById('runCommandButton').style.display = 'block';
+
+                document.getElementById('runCommandButton').addEventListener('click', function() {
+                    const command = encodeURIComponent(escapedCommand);
+                    window.location.href = `/credentials?command=${command}`
+                });
             })
             .catch(error => console.error('Error:', error));
         });
-
     </script>
 </body>
 </html>
