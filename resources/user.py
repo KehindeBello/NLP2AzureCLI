@@ -87,11 +87,11 @@ class ForgotPassword(Resource):
             return {'message':"Email not found"}, 404
         token = s.dumps(email, salt='password-reset-salt')
         print(f'Token - {token}')
-        # msg = Message('Password reset request', sender=os.getenv("EMAIL_USERNAME"), recipients=[email])
+        msg = Message('Password reset request', sender="mailtrap@demomailtrap.com", recipients=[email])
         link = url_for('resetpassword', token=token, _external=True)
         print(f'Link - {link}')
-        # msg.body = f'Here is the link to reset your password : {link}'
-        # mail.send(msg)
+        msg.body = f'Here is the link to reset your password : {link}'
+        mail.send(msg)
         flash("A password reset link has been sent to your email.", "info")
         return {"message":"Token generated"}, 200
     
@@ -122,6 +122,7 @@ class ResetPassword(Resource):
         email = s.loads(token, salt="password-reset-salt", max_age=300)
         user = UserModel.find_by_email(email)
         print(user)
+        
         # set new password
         if user:
             user.set_password(new_password)
