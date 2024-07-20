@@ -6,9 +6,9 @@ class UserModel(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String, nullable=False)
-    username = db.Column(db.String, nullable=False)
-    password = db.Column(db.String, nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     azure_credentials = db.relationship("AzureCredentialModel", back_populates="user", lazy="dynamic",cascade="all, delete-orphan")
 
     def save_to_db(self):
