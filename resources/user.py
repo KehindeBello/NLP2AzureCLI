@@ -114,8 +114,7 @@ class ResetPassword(Resource):
         print(f"Token - {token}")
         new_password = request.form.get("new_password")
         confirm_password = request.form.get("repeat_password")        
-        print(f'New_password - {new_password}')
-        print(f'Confirm passoword : {confirm_password}')
+                
         if new_password != confirm_password:
             return {'messsage': "Passwords do not match"}, 400
         
