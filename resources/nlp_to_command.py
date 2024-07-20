@@ -34,6 +34,6 @@ def translate_to_azure_cli(instruction):
 
 
 # Example usage
-instruction = "Get a list of resource groups."
-azure_cli_command = translate_to_azure_cli(instruction)
-print("Azure CLI Command:", azure_cli_command)
+# instruction = "Get a list of resource groups."
+# azure_cli_command = translate_to_azure_cli(instruction)
+# print("Azure CLI Command:", azure_cli_command)
