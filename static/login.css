@@ -63,7 +63,7 @@ button:hover {
     color: #fe0707;
 }
 
-.forgot-password {
+.forgot-password .signup {
     display: block;
     margin-top: 15px;
     font-size: 14px;
@@ -71,6 +71,6 @@ button:hover {
     text-decoration: none;
 }
 
-.forgot-password:hover {
+.forgot-password:hover .signup:hover{
     text-decoration: underline;
 }
