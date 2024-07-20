@@ -7,7 +7,8 @@ def hashPassword(password):
     salt = bcrypt.gensalt()
     #hashing the password
     hash = bcrypt.hashpw(encoded_password, salt=salt)
-    return hash
+    decoded_hash = hash.decode("utf-8")
+    return decoded_hash
 
 def checkPassword(password, hashed_password):
     encoded_password = password.encode("utf-8")
