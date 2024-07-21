@@ -4,6 +4,7 @@ from flask_mail import Message
 from db import db
 from flask import Flask, make_response, render_template, session
 from flask_login import LoginManager, login_required
+from flask_cors import CORS
 from mail_extension import mail
 from routes.routes import create_routes
 from models import UserModel
@@ -11,6 +12,8 @@ from models import UserModel
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
+
 app.secret_key = 'BAD_SECRET_KEY'
 app.config["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"]= os.getenv("SQLALCHEMY_DATABASE_URI", "sqlite:///data.db")
