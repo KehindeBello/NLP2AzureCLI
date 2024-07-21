@@ -11,3 +11,4 @@ marshmallow==3.21.3
 python-dotenv==1.0.1
 python_bcrypt==0.3.2
 pymysql==1.1.1
+gunicorn
