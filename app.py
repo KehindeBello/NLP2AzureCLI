@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask_mail import Message
 from db import db
-from flask import Flask, render_template, session
+from flask import Flask, make_response, render_template, session
 from flask_login import LoginManager, login_required
 from mail_extension import mail
 from routes.routes import create_routes
@@ -11,7 +11,7 @@ from models import UserModel
 load_dotenv()
 
 app = Flask(__name__)
-
+app.secret_key = 'BAD_SECRET_KEY'
 app.config["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"]= os.getenv("SQLALCHEMY_DATABASE_URI", "sqlite:///data.db")
 app.config["JWT_SECRET_KEY"]= os.getenv("JWT_SECRET_KEY")
@@ -47,7 +47,7 @@ def index():
 @app.get("/home")
 @login_required
 def home():
-    return render_template("homepage.html")
+    return make_response(render_template("homepage.html"))
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
