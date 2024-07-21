@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask_mail import Message
 from db import db
 from flask import Flask, make_response, render_template, session
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 from flask_cors import CORS
 from mail_extension import mail
 from routes.routes import create_routes
@@ -50,7 +50,7 @@ def index():
 @app.get("/home")
 @login_required
 def home():
-    return make_response(render_template("homepage.html"))
+    return make_response(render_template("homepage.html", user_name=current_user.username))
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
