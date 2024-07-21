@@ -100,3 +100,9 @@ button#runCommandButton:hover {
     border-radius: 4px;
     margin-top: 20px;
 }
+
+.greeting {
+    font-size: 18px;
+    color: #333333;
+    margin-top: 20px;
+}
