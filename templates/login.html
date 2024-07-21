@@ -9,7 +9,7 @@
 <body>
     <div class="login-container">
         <h2>Login to Azure CLI Converter</h2>
-        <form id="loginForm" method="post", action="/login">
+        <form id="loginForm">
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -26,5 +26,21 @@
             <p>Don't have an account? <a href="/signup">Signup</a></p>
         </form>
     </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch('/login', {
+                method: "POST",
+                body: formData
+            })
+            const data = await response.json();
+            if (response.ok) {
+                window.location.href = 'home'
+            } else {
+                document.getElementById('loginResponse').innerText = data.message;
+            }
+        });
+    </script>
 </body>
 </html>
