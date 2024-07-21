@@ -48,8 +48,10 @@
                 document.getElementById('runCommandButton').style.display = 'block';
 
                 document.getElementById('runCommandButton').addEventListener('click', function() {
-                    const command = encodeURIComponent(escapedCommand);
-                    window.location.href = `/credentials?command=${command}`
+                    // const command = encodeURIComponent(escapedCommand);
+                    localStorage.setItem('azureCliCommand', escapedCommand);
+                    window.location.href = `/credentials`
+                    
                 });
             })
             .catch(error => console.error('Error:', error));

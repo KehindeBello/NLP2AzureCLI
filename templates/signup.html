@@ -38,7 +38,7 @@
             })
             const data = await response.json();
             if (response.ok) {
-                window.location.href = 'home'
+                window.location.href = '/home';
             } else {
                 document.getElementById('signupResponse').innerText = data.message;
             }
