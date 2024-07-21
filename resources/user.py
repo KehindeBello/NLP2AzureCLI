@@ -2,9 +2,8 @@ import os
 from dotenv import load_dotenv
 from flask import jsonify, render_template, make_response, request, flash, url_for, redirect, session
 from flask_restful import Resource
-from flask_jwt_extended import create_access_token, get_jwt_identity, get_jwt, jwt_required
 from flask_mail import Message
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from models import UserModel
 from marshmallow import ValidationError
@@ -36,7 +35,7 @@ class UserRegister(Resource):
         user = UserModel(**data)
         user.save_to_db()
         login_user(user=user, force=True)
-        return make_response(redirect(url_for('home')))
+        return {"message": "SignUp Sucessful"}, 200
     
     def get(self):
         return make_response(render_template("signup.html"))
@@ -51,7 +50,6 @@ class UserLogin(Resource):
         
         try:
             data = schema.load(data)
-            print(data)
         except ValidationError as err:
             return jsonify(err.messages), 422
         
@@ -61,12 +59,13 @@ class UserLogin(Resource):
         if user:
             if checkPassword(data["password"], user.password):
                 login_user(user=user, force=True)
-                # flash("Login Successful")
-                return make_response(redirect(url_for('home')))
-                # return {"message": "Login Sucessful","token": access_token}, 200
+                flash("Login Successful", "success")
+                return {"message": "Login Sucessful"}, 200
             else:
+                # flash("Incorrect Password", 'danger')
                 return {"message": "Incorrect password"}, 401
         else:
+            # flash("User not found", 'danger')
             return {"message": "User not found"}, 404
 
     def get(self):
@@ -114,7 +113,7 @@ class ResetPassword(Resource):
         print(f"Token - {token}")
         new_password = request.form.get("new_password")
         confirm_password = request.form.get("repeat_password")        
-                
+
         if new_password != confirm_password:
             return {'messsage': "Passwords do not match"}, 400
         
