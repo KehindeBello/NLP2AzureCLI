@@ -47,10 +47,16 @@
                 resultDiv.innerHTML = escapedCommand;
                 document.getElementById('optimizedCommandContainer').style.display = 'block';
                 document.getElementById('runCommandButton').style.display = 'block';
+                localStorage.setItem('azureCliCommand', data.azureCliCommand);
 
-                document.getElementById('runCommandButton').addEventListener('click', function() {
-                    // const command = encodeURIComponent(escapedCommand);
-                    localStorage.setItem('azureCliCommand', escapedCommand);
+                document.getElementById('optimizedCommand').addEventListener('input', function() {
+                    const optimizedCommand = this.value;
+                    if (optimizedCommand.trim() !== '') {
+                        localStorage.setItem('azureCliCommand', optimizedCommand);
+                    }
+                });
+
+                document.getElementById('runCommandButton').addEventListener('click', function() {                    
                     window.location.href = `/credentials`
                     
                 });
