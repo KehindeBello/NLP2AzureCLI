@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Result</title>
+</head>
+<body>
+    <h1>Command Result</h1>
+    <div id="result-output"></div>
+
+    <div><a href="/home" class="button">Home</a></div>
+
+    <script>
+        // Retrieve the result from localStorage
+        const commandResult = localStorage.getItem('commandResult');
+        
+        if (commandResult) {
+            // Display the result
+            document.getElementById('result-output').textContent = commandResult;
+        } else {
+            document.getElementById('result-output').textContent = 'No result found.';
+        }
+    </script>
+</body>
+</html>
