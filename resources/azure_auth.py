@@ -2,6 +2,7 @@ import subprocess
 from flask import jsonify, make_response, render_template, request
 from flask_restful import Resource
 from flask_login import login_required
+from resources.azure_cli import login_with_service_principal, run_azure_command
 
 def run_command(command):
     if isinstance(command, str):
@@ -30,28 +31,17 @@ class RunCommand(Resource):
         tenant_id = data.get("tenantId")
         command = data.get("command")
 
-        print(type(command))
-        print(f'Clientid - {client_id}, Clientsecret - {client_secret}, TenantId - {tenant_id}, Command - {command}')
-        #Authenticate
-        login_command = f"az login --service-principal --username {client_id} --password {client_secret} --tenant {tenant_id}"
-        print(login_command)
-        try:
-            returncode, stdout, stderr = run_command(login_command)
-            if returncode == 0:
-                print("Login Successful")
-                # Ensure the command is a list of strings if not already
-                if isinstance(command, str):
-                    command = command.split()
+        # Login using service principal
+        if login_with_service_principal(client_id, client_secret, tenant_id):
+            # Run the specified Azure CLI command
+            command_response = run_azure_command(command.split())
+            print(command_response)
+            return jsonify({"result":command_response})
+        else:
+            return jsonify({"error":"Failed to log in"}), 400
+        
 
-                print(f'Executing Azure CLI command: {command}')
-                creturncode, cstdout, cstderr = run_command(command)
-
-                if creturncode == 0:
-                    return jsonify({"output": cstdout})
-                else:
-                    return jsonify({"error": cstderr}), 400
-            else:
-                print("Login failed")
-                return jsonify({"error": stderr}), 400
-        except:
-            return jsonify({'error': "Error"})
+class AzureCliResponse(Resource):
+    @login_required
+    def get(self):
+        return make_response(render_template("result_page.html"))
