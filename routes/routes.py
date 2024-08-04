@@ -11,6 +11,6 @@ def create_routes(app):
     api.add_resource(ConvertNLP, '/convert')
     api.add_resource(RunCommand, '/run-command')
     api.add_resource(AuthAzure, "/credentials")
-    api.add_resource(AzureCliResponse, '/result_page')
+    api.add_resource(AzureCliResponse, '/result_page', endpoint="result_page")
 
     return api
