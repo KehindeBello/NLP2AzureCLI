@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #0078D4; /* Blue color */
+    margin-bottom: 20px;
+}
+
+#result-output {
+    width: 100%;
+    max-width: 600px;
+    background-color: #000; /* Black background for terminal style */
+    border: 1px solid #333; /* Dark border */
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-align: left;
+    font-size: 1rem;
+    color: #00ff00; /* Green text for terminal style */
+    font-family: "Courier New", Courier, monospace; /* Monospace font */
+    white-space: pre-wrap; /* Preserve formatting */
+    overflow-y: auto; /* Allow scrolling */
+}
+
+.button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #0078D4; /* Blue button */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #005A9E; /* Darker blue on hover */
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0078d4;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+.loading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0078D4; /* Blue loading text */
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #005a9e; /* Navy loading text */
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
