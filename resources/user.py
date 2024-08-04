@@ -2,14 +2,13 @@ import os
 from dotenv import load_dotenv
 from flask import jsonify, render_template, make_response, request, flash, url_for, redirect, session
 from flask_restful import Resource
-from flask_mail import Message
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from models import UserModel
 from marshmallow import ValidationError
 from schema.schema import UserSchema, LoginSchema, AzureCredentialSchema
 from resources.utils import hashPassword, checkPassword
-from mail_extension import mail
+from resources.mail import send_password_reset_email
 
 load_dotenv()
 s = URLSafeTimedSerializer(os.getenv("SECRET_KEY"))
@@ -74,6 +73,7 @@ class UserLogin(Resource):
 class UserLogout(Resource):
     @login_required
     def get(self):
+        session.clear()
         logout_user()        
         return redirect(url_for('login'))
     
@@ -86,11 +86,9 @@ class ForgotPassword(Resource):
             return {'message':"Email not found"}, 404
         token = s.dumps(email, salt='password-reset-salt')
         print(f'Token - {token}')
-        msg = Message('Password reset request', sender="mailtrap@demomailtrap.com", recipients=[email])
         link = url_for('resetpassword', token=token, _external=True)
         print(f'Link - {link}')
-        msg.body = f'Here is the link to reset your password : {link}'
-        mail.send(msg)
+        send_password_reset_email(username=user.username, link=link ,receiver_email=email)
         flash("A password reset link has been sent to your email.", "info")
         return {"message":"Token generated"}, 200
     
