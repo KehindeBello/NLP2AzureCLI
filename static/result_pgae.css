@@ -12,30 +12,34 @@ body {
 }
 
 h1 {
-    color: #0078D4; /* Change to blue */
+    color: #0078D4; /* Blue color */
     margin-bottom: 20px;
 }
 
 #result-output {
     width: 80%;
     max-width: 600px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #000; /* Black background for terminal style */
+    border: 1px solid #333; /* Dark border */
     border-radius: 4px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     min-height: 150px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: start;
+    text-align: left;
     font-size: 1rem;
+    color: #00ff00; /* Green text for terminal style */
+    font-family: "Courier New", Courier, monospace; /* Monospace font */
+    white-space: pre-wrap; /* Preserve formatting */
+    overflow-y: auto; /* Allow scrolling */
 }
 
 .button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff; /* Change to blue */
+    background-color: #0078D4; /* Blue button */
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -45,12 +49,11 @@ h1 {
 }
 
 .button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #005A9E; /* Darker blue on hover */
 }
 
 .loading {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #007bff; /* Change to blue */
+    color: #0078D4; /* Blue loading text */
 }
-
