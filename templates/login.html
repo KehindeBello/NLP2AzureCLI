@@ -25,10 +25,12 @@
             <div id="loginResponse" class="error"></div>
             <p>Don't have an account? <a href="/signup">Signup</a></p>
         </form>
+        <div class="spinner" id="loadingSpinner"></div>
     </div>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (event) => {
             event.preventDefault();
+            document.getElementById('loadingSpinner').style.display = 'block';
             const formData = new FormData(event.target);
             const response = await fetch('/login', {
                 method: "POST",
@@ -38,6 +40,7 @@
             if (response.ok) {
                 window.location.href = '/home';
             } else {
+                document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('loginResponse').innerText = data.message;
             }
         });
