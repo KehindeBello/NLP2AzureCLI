@@ -18,7 +18,6 @@ class UserModel(UserMixin, db.Model):
     def find_by_email(cls, email):
         return cls.query.filter_by(email = email).first()
     
-    @classmethod
     def set_password(self, password):
         self.password = hashPassword(password=password)
         db.session.commit()        
