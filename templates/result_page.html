@@ -4,37 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Command Result</title>
+    <link rel="stylesheet" href="/static/result_pgae.css">
 </head>
 <body>
     <h1>Command Result</h1>
-    <div id="result-output"></div>
-
+    <div class="loading-container" id="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+    <div id="result-output" style="display: none;"></div>
+    <br>
     <div><a href="/home" class="button">Home</a></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
 
             const outputElement = document.getElementById("result-output");
-
-            //fetch and stream response from the run-command endpoint
-            await fetch('/run-command', {method: 'POST'}).then(response => {
+            const loadingContainer = document.getElementById("loading-container");
+            // Fetch and stream response from the run-command endpoint
+            await fetch('/run-command', { method: 'POST' }).then(response => {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
 
+                loadingContainer.style.display = 'none'; // Hide loading spinner
+                outputElement.style.display = 'block';   // Show result output
+
                 function readStream() {
-                    reader.read().then(({done, value}) => {
+                    reader.read().then(({ done, value }) => {
                         if (done) {
                             return;
                         }
                         outputElement.innerHTML += decoder.decode(value).replace(/\n/g, "<br>");
-                        readStream(); //continue reading the stream
+                        readStream(); // Continue reading the stream
                     });
                 }
                 readStream();
-            });
-
+            });        
         });
-
     </script>
 </body>
 </html>
