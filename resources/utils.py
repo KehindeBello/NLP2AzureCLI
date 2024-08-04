@@ -6,8 +6,6 @@ def hashPassword(password):
     #salt 
     salt = bcrypt.gensalt()
     #hashing the password
-    print(f'type - {type(encoded_password)}')
-    print(encoded_password)
     hash = bcrypt.hashpw(encoded_password, salt=salt)
     decoded_hash = hash.decode("utf-8")
     return decoded_hash
