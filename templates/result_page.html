@@ -12,15 +12,29 @@
     <div><a href="/home" class="button">Home</a></div>
 
     <script>
-        // Retrieve the result from localStorage
-        const commandResult = localStorage.getItem('commandResult');
-        
-        if (commandResult) {
-            // Display the result
-            document.getElementById('result-output').textContent = commandResult;
-        } else {
-            document.getElementById('result-output').textContent = 'No result found.';
-        }
+        document.addEventListener('DOMContentLoaded', async function() {
+
+            const outputElement = document.getElementById("result-output");
+
+            //fetch and stream response from the run-command endpoint
+            await fetch('/run-command', {method: 'POST'}).then(response => {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                function readStream() {
+                    reader.read().then(({done, value}) => {
+                        if (done) {
+                            return;
+                        }
+                        outputElement.innerHTML += decoder.decode(value).replace(/\n/g, "<br>");
+                        readStream(); //continue reading the stream
+                    });
+                }
+                readStream();
+            });
+
+        });
+
     </script>
 </body>
 </html>
