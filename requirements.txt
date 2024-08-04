@@ -14,3 +14,4 @@ pymysql==1.1.1
 gunicorn
 psycopg2-binary==2.9.9
 Flask-Cors==4.0.1
+azure-cli==2.62.0
