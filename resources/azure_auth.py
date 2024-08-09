@@ -47,9 +47,11 @@ class RunCommand(Resource):
         if login_with_service_principal(client_id, client_secret, tenant_id):
             
             output_collected = False
-            # Run the specified Azure CLI command
+            
+            command += " --yes" #flag to skip confirmation prompt
             def generate():
                 nonlocal output_collected
+                # Run the specified Azure CLI command
                 process = subprocess.Popen(command.split(), 
                                            stdout=subprocess.PIPE, 
                                            stderr=subprocess.STDOUT)
