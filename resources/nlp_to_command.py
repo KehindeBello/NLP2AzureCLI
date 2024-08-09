@@ -25,7 +25,7 @@ Azure CLI Command:
 prompt = PromptTemplate(template=prompt_template, input_variables=["instruction"])
 
 # Create the LangChain with the LLM and the prompt template
-chain = LLMChain(prompt=prompt, llm=llm)
+chain = LLMChain(prompt=prompt, llm=llm, llm_kwargs={"temperature": 0})
 
 # Define a function to translate instructions to Azure CLI commands
 def translate_to_azure_cli(instruction):
@@ -34,6 +34,7 @@ def translate_to_azure_cli(instruction):
 
 
 # Example usage
-# instruction = "Get a list of resource groups."
+# instruction = "Resize the virtual machine 'MyVM' to 'Standard_DS2_v2'"
+# print(f'Instruction - {instruction}')
 # azure_cli_command = translate_to_azure_cli(instruction)
 # print("Azure CLI Command:", azure_cli_command)
