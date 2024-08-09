@@ -45,15 +45,23 @@ class RunCommand(Resource):
         print(f"Command: {command}")
         # Login using service principal
         if login_with_service_principal(client_id, client_secret, tenant_id):
+            
+            output_collected = False
             # Run the specified Azure CLI command
             def generate():
+                nonlocal output_collected
                 process = subprocess.Popen(command.split(), 
                                            stdout=subprocess.PIPE, 
                                            stderr=subprocess.STDOUT)
                 for line in iter(process.stdout.readline, b''):
+                    output_collected = True  
                     yield line.decode('utf-8')
+
                 process.stdout.close()
                 process.wait()
+
+                if not output_collected and process.returncode == 0: #For commands that does not return an output
+                    yield "\nCommand executed successfully!"
 
             return Response(stream_with_context(generate()), mimetype='text/plain')
         
