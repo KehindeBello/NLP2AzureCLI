@@ -14,33 +14,51 @@
     </div>
     <div id="result-output" style="display: none;"></div>
     <br>
-    <div><a href="/home" class="button">Home</a></div>
+    <div>
+        <a href="/home" class="button">Home</a>
+        <button id="rerun-button" class="button">Rerun Command</button>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
 
             const outputElement = document.getElementById("result-output");
             const loadingContainer = document.getElementById("loading-container");
+            const rerunButton = document.getElementById("rerun-button");
+
+            // run command and stream response
+            async function runCommand() {
+                //clear former result
+                outputElement.innerHTML = '';
+                loadingContainer.style.display = 'block';
+                outputElement.style.display = "none";
+            
             // Fetch and stream response from the run-command endpoint
-            await fetch('/run-command', { method: 'POST' }).then(response => {
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
+                await fetch('/run-command', { method: 'POST' }).then(response => {
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
 
-                loadingContainer.style.display = 'none'; // Hide loading spinner
-                outputElement.style.display = 'block';   // Show result output
+                    loadingContainer.style.display = 'none'; // Hide loading spinner
+                    outputElement.style.display = 'block';   // Show result output
 
-                function readStream() {
-                    reader.read().then(({ done, value }) => {
-                        if (done) {
-                            return;
-                        }
-                        outputElement.innerHTML += decoder.decode(value).replace(/\n/g, "<br>");
-                        readStream(); // Continue reading the stream
-                    });
-                }
-                readStream();
-            });        
-        });
+                    function readStream() {
+                        reader.read().then(({ done, value }) => {
+                            if (done) {
+                                return;
+                            }
+                            outputElement.innerHTML += decoder.decode(value).replace(/\n/g, "<br>");
+                            readStream(); // Continue reading the stream
+                        });
+                    }
+                    readStream();
+                });        
+        }
+        //Run the command
+        runCommand();
+        
+        // Rerun the command when the Rerun command button is clicked
+        rerunButton.addEventListener('click', runCommand);
+    });
     </script>
 </body>
 </html>

@@ -44,12 +44,16 @@ h1 {
     text-decoration: none;
     border-radius: 4px;
     font-size: 1rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
 
 .button:hover {
     background-color: #005A9E; /* Darker blue on hover */
+}
+
+#rerun-button {
+    border: none;
+    margin-left: 20px;
 }
 
 .loading-spinner {
