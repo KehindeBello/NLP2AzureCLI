@@ -34,7 +34,7 @@ def translate_to_azure_cli(instruction):
 
 
 # Example usage
-# instruction = "Resize the virtual machine 'MyVM' to 'Standard_DS2_v2'"
+# instruction = "Create a resource group named testResource'"
 # print(f'Instruction - {instruction}')
 # azure_cli_command = translate_to_azure_cli(instruction)
 # print("Azure CLI Command:", azure_cli_command)
