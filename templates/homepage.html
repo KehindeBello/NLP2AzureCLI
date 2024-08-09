@@ -18,6 +18,7 @@
                 <label for="nlpInput">Enter your natural language prompt:</label>
                 <textarea id="nlpInput" name="nlpInput" rows="4" cols="50" placeholder="Enter your prompt here..."></textarea>
                 <button type="submit">Convert to Azure CLI Command</button>
+                <div id="spinner"></div>
             </form>
             <div id="result"> </div>
             <div id="optimizedCommandContainer" style="display: none;">
@@ -30,6 +31,10 @@
     <script>
         document.getElementById('nlpForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
+
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'inline-block';
+
             const nlpInput = document.getElementById('nlpInput').value;
 
             fetch('/convert', {
@@ -60,6 +65,9 @@
                     window.location.href = `/credentials`
                     
                 });
+            })
+            .finally(() => {
+                spinner.style.display = 'none'
             })
             .catch(error => console.error('Error:', error));
         });
