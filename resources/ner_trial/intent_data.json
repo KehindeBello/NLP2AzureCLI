@@ -1,0 +1,45 @@
+{
+    "data": [
+      {
+        "input": "Create a virtual machine called testVM in the eastus region with the UbuntuLTS image in resource group myResourceGroup",
+        "intent": "create_vm"
+      },
+      {
+        "input": "Stop the virtual machine named myVM in the westus region",
+        "intent": "stop_vm"
+      },
+      {
+        "input": "Start the virtual machine called appServer in the centralus region within resource group devResources",
+        "intent": "start_vm"
+      },
+      {
+        "input": "Delete the virtual machine called oldVM from the eastus region within resource group archiveGroup",
+        "intent": "delete_vm"
+      },
+      {
+        "input": "List all virtual machines in the resource group productionGroup",
+        "intent": "list_vms"
+      },
+      {
+        "input": "Create a new resource group named myNewResourceGroup in the westus region",
+        "intent": "create_resource_group"
+      },
+      {
+        "input": "Delete the resource group named oldResources from my Azure account",
+        "intent": "delete_resource_group"
+      },
+      {
+        "input": "Show all resource groups in the eastus region",
+        "intent": "list_resource_groups"
+      },
+      {
+        "input": "Create a virtual machine called dataVM in the westus2 region with the WindowsServer image in resource group devGroup",
+        "intent": "create_vm"
+      },
+      {
+        "input": "Start the virtual machine named prodVM in the southcentralus region within resource group productionGroup",
+        "intent": "start_vm"
+      }
+    ]
+  }
+  

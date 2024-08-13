@@ -48,6 +48,12 @@ def train_model(X, y):
     :param y: List of corresponding intents
     :return: Trained scikit-learn Pipeline object
     """
+    with open('resources/ner_trial/intent_data.json', 'r') as file:
+        data = json.load(file)
+
+    # Extract X (input patterns) and y (intents)
+    X = [item['input'] for item in data['data']]
+    y = [item['intent'] for item in data['data']]
     # Create a pipeline with CountVectorizer and MultinomialNB
     model = Pipeline(
         [
