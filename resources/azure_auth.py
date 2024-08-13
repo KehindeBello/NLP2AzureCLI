@@ -48,7 +48,7 @@ class RunCommand(Resource):
             
             output_collected = False
             
-            command += " --yes" #flag to skip confirmation prompt
+            # command += " --yes" #flag to skip confirmation prompt
             def generate():
                 nonlocal output_collected
                 # Run the specified Azure CLI command
