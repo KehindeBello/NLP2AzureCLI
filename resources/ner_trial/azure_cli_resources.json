@@ -1,0 +1,136 @@
+{
+  "create_vm": {
+    "patterns": [
+      "create a virtual machine",
+      "make a new vm",
+      "set up a vm",
+      "deploy a vm",
+      "deploy vm"
+    ],
+    "command": "az vm create --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME} --image {IMAGE} --admin-username {USERNAME} --generate-ssh-keys",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)",
+      "IMAGE": "image[d:\\s]+(\\w+)",
+      "USERNAME": "username[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group",
+      "VM_NAME": "The name of the virtual machine",
+      "IMAGE": "The OS image for the VM (e.g., UbuntuLTS)",
+      "USERNMAME": "The admin username for the VM"
+    }
+  },
+  "delete_vm": {
+    "patterns": [
+      "delete a virtual machine",
+      "remove a vm",
+      "destroy vm"
+    ],
+    "command": "az vm delete --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME} --yes",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to delete"
+    }
+  },
+  "start_vm": {
+    "patterns": [
+      "start vm",
+      "start a virtual machine"
+    ],
+    "command": "az vm start --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME}",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)|resource-group[d:\\s]+(\\w+)|resourcegroup[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to start"
+    }
+  },
+  "stop_vm": {
+    "patterns": [
+      "stop vm",
+      "stop a virtual machine",
+      "stop"
+    ],
+    "command": "az vm stop --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME}",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)|resource-group[d:\\s]+(\\w+)|resourcegroup[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to start"
+    }
+  },
+  "deallocate_vm": {
+    "patterns": [
+      "deallocate vm",
+      "deallocate a virtual machine",
+      "deallocate"
+    ],
+    "command": "az vm deallocate --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME}",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)|resource-group[d:\\s]+(\\w+)|resourcegroup[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to deallocate"
+    }
+  },
+  "restart_vm": {
+    "patterns": [
+      "restart vm",
+      "restart a virtual machine",
+      "restart"
+    ],
+    "command": "az vm restart --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME}",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)|resource-group[d:\\s]+(\\w+)|resourcegroup[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to restart"
+    }
+  },
+  "redeploy_vm": {
+    "patterns": [
+      "redeploy vm",
+      "redeploy a virtual machine",
+      "redeploy"
+    ],
+    "command": "az vm redeploy --resource-group {RESOURCE_GROUP_NAME} --name {VM_NAME}",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "resource group[d:\\s]+(\\w+)|resource-group[d:\\s]+(\\w+)|resourcegroup[d:\\s]+(\\w+)",
+      "VM_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
+      "VM_NAME": "The name of the virtual machine to redeploy"
+    }
+  },
+  "create_resource_group": {
+    "patterns": [
+      "create resource group",
+      "create group",
+      "group resource",
+      "group"
+    ],
+    "command": "az group create --name {RESOURCE_GROUP_NAME} --location {REGION}",
+    "param_patterns": {
+      "REGION": "location\\s+(\\w+)|region\\s+(\\w+)|country\\s+(\\w+)",
+      "RESOURCE_GROUP_NAME": "name[d:\\s]+(\\w+)|vmname[d:\\s]+(\\w+)"
+    },
+    "param_description": {
+      "REGION": "The location of the resources",
+      "RESOURCE_GROUP_NAME": "The name of the group resource"
+    }
+  }
+}

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain_openai import OpenAI
 from langchain.chains.llm import LLMChain
 from langchain.prompts import PromptTemplate
+from resources.ner_trial.train import ner_to_command
 
 # Set up the OpenAI API key. Load environmental variables
 load_dotenv()
@@ -29,7 +30,8 @@ chain = LLMChain(prompt=prompt, llm=llm, llm_kwargs={"temperature": 0})
 
 # Define a function to translate instructions to Azure CLI commands
 def translate_to_azure_cli(instruction):
-    azure_cli_command = chain.run(instruction)
+    azure_cli_command = ner_to_command(instruction)
+    # azure_cli_command = chain.run(instruction)
     return azure_cli_command
 
 
