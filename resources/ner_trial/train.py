@@ -172,7 +172,7 @@ def ner_to_command(prompt):
     model = train_model(X, y)
 
     # Load spaCy model
-    nlp = spacy.load("resources/ner_trial/path_to_saved_model_sharp")
+    nlp = spacy.load("resources/ner_trial/path_to_saved_model_sharp_copy")
 
     # Add custom NER labels based on parameters in the resource file
     ner = nlp.get_pipe("ner")
