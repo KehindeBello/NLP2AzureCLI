@@ -211,6 +211,7 @@ def ner_to_command(prompt):
                 print("Azure CLI Command:")
                 return command
             except ValueError as e:
+                # pass
                 # Handle missing parameters
                 print(f"Error: {str(e)}")
                 missing_params = set(

@@ -39,6 +39,26 @@
       {
         "input": "Start the virtual machine named prodVM in the southcentralus region within resource group productionGroup",
         "intent": "start_vm"
+      },
+      {
+        "input": "Stop the virtual machine frontendVM in the eastus2 region in resource group frontendResources",
+        "intent": "stop_vm"
+      },
+      {
+        "input": "Terminate the virtual machine called testVM located in the westus region under resource group qaGroup",
+        "intent": "stop_vm"
+      },
+      {
+        "input": "Start the virtual machine appServer in the westus2 region inside resource group applicationGroup",
+        "intent": "start_vm"
+      },
+      {
+        "input": "Create a new resource group called productionResources in the eastus region",
+        "intent": "create_resource_group"
+      },
+      {
+        "input": "Create up a resource group named devGroup in the westus2 region",
+        "intent": "create_resource_group"
       }
     ]
   }
