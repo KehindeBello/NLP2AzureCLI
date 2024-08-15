@@ -1,4 +1,5 @@
 import json
+import pickle
 import re
 import spacy
 from spacy.tokens import Doc
@@ -97,7 +98,7 @@ def extract_params(user_input, param_patterns, nlp):
     for param, pattern in param_patterns.items():
         print(f"Param, Pattern -- {param}, {pattern}")
         for ent in doc.ents:
-            print(ent)
+            print(ent, ent.label_)
             if ent.label_ == param.upper():
                 params[param] = ent.text
                 print(f"Paramas after entitty - {params}")
@@ -117,46 +118,38 @@ def generate_azure_cli_command(intent, params, resources):
     :return: Generated Azure CLI command
     :raises ValueError: If required parameters are missing
     """
-    command_template = resources[intent]["command"]
-    # Find all required parameters in the command template
-    required_params = set(re.findall(r"\{(\w+)\}", command_template))
-    # Identify missing parameters
-    missing_params = required_params - set(params.keys())
+    command = resources[intent]["command"]
+    for param in resources[intent]["param_patterns"]:
+        if param not in params:
+            params[param] = resources[intent]["default_params"][
+                param
+            ]  # Fill with default value if parameter is missing
 
-    if missing_params:
-        raise ValueError(f"Missing required parameters: {', '.join(missing_params)}")
-
-    # Replace placeholders in the command template with actual parameter values
-    # print(f"")
-    for param, value in params.items():
-        placeholder = "{" + param + "}"
-        command_template = command_template.replace(placeholder, value)
-
-    return command_template
+    return command.format(**params)
 
 
 # Function to suggest missing parameters to the user
-def suggest_missing_params(missing_params, resources, intent):
-    """
-    Generate suggestions for missing parameters.
+# def suggest_missing_params(missing_params, resources, intent):
+#     """
+#     Generate suggestions for missing parameters.
 
-    :param missing_params: Set of missing parameter names
-    :param resources: Dictionary containing Azure CLI resources
-    :param intent: Detected intent
-    :return: List of parameter suggestions with descriptions
-    """
-    suggestions = []
-    for param in missing_params:
-        if (
-            "param_description" in resources[intent]
-            and param in resources[intent]["param_description"]
-        ):
-            suggestions.append(
-                f"{param}: {resources[intent]['param_description'][param]}"
-            )
-        else:
-            suggestions.append(param)
-    return suggestions
+#     :param missing_params: Set of missing parameter names
+#     :param resources: Dictionary containing Azure CLI resources
+#     :param intent: Detected intent
+#     :return: List of parameter suggestions with descriptions
+#     """
+#     suggestions = []
+#     for param in missing_params:
+#         if (
+#             "param_description" in resources[intent]
+#             and param in resources[intent]["param_description"]
+#         ):
+#             suggestions.append(
+#                 f"{param}: {resources[intent]['param_description'][param]}"
+#             )
+#         else:
+#             suggestions.append(param)
+#     return suggestions
 
 
 # Main function
@@ -167,60 +160,22 @@ def ner_to_command(prompt):
     resource_file = "azure_cli_resources.json"  # Path to the JSON resource file
     resources = load_resources(resource_file)
 
-    # Prepare training data and train the model
-    X, y = prepare_training_data(resources)
-    model = train_model(X, y)
-
     # Load spaCy model
-    nlp = spacy.load("resources/ner_trial/path_to_saved_model_sharp_copy")
+    nlp = spacy.load("resources/ner_trial/path_to_saved_model_sharp")
 
-    # Add custom NER labels based on parameters in the resource file
-    ner = nlp.get_pipe("ner")
-    for intent in resources:
-        for param in resources[intent]["param_patterns"]:
-            if param.upper() not in ner.labels:
-                ner.add_label(param.upper())
+    with open('resources/ner_trial/model.pkl', 'rb') as file:
+        loaded_model = pickle.load(file)
+    intent = loaded_model.predict([prompt])[0]  # Predict the intent
+    print(f"Intent, {intent}")
 
-    # Train the NER model with an empty example to initialize the new labels
-    optimizer = nlp.create_optimizer()
-    for _ in range(10):  # Adjust the number of iterations as needed
-        losses = {}
-        doc = Doc(nlp.vocab, words=["Example", "sentence", "for", "custom", "NER", "training"])
-        example = Example.from_dict(doc, {"entities": []})
-        nlp.update([example], sgd=optimizer, losses=losses)
-
-    print("Advanced Azure CLI Command Generator: Hello! Type 'quit' to exit.")
-    while True:
-        user_input = prompt
-        if user_input.lower() == "quit":
-            print("Advanced Azure CLI Command Generator: Goodbye!")
-            break
-
-        processed_input = preprocess(user_input)
-        intent = model.predict([processed_input])[0]  # Predict the intent
-        print(f"Intent, {intent}")
-
-        if intent in resources:
-            try:
-                # Extract parameters and generate command
-                params = extract_params(
-                    user_input, resources[intent]["param_patterns"], nlp
-                )
-                print(f"Params, {params}")
-                command = generate_azure_cli_command(intent, params, resources)
-                print("Azure CLI Command:")
-                return command
-            except ValueError as e:
-                # pass
-                # Handle missing parameters
-                print(f"Error: {str(e)}")
-                missing_params = set(
-                    re.findall(r"\{(\w+)\}", resources[intent]["command"])
-                ) - set(params.keys())
-                suggestions = suggest_missing_params(missing_params, resources, intent)
-                print("Please provide the following parameters:")
-                for suggestion in suggestions:
-                    # print(f"- {suggestion}")
-                    return f"- {suggestion}"
-        else:
-            return "I'm not sure how to generate that Azure CLI command. Can you please try rephrasing your request?"
+    if intent in resources:
+        # Extract parameters and generate command
+        params = extract_params(
+            prompt, resources[intent]["param_patterns"], nlp
+        )
+        print(f"Params, {params}")
+        command = generate_azure_cli_command(intent, params, resources)
+        print(f"Azure CLI Command: {command}")
+        return command
+    else:
+        return "I'm not sure how to generate that Azure CLI command. Can you please try rephrasing your request?"

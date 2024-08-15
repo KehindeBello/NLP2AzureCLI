@@ -18,7 +18,13 @@
       "RESOURCE_GROUP_NAME": "The name of the resource group",
       "VM_NAME": "The name of the virtual machine",
       "IMAGE": "The OS image for the VM (e.g., UbuntuLTS)",
-      "USERNMAME": "The admin username for the VM"
+      "USERNAME": "The admin username for the VM"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM",
+      "IMAGE": "UbuntuLTS",
+      "USERNAME": "adminUser"
     }
   },
   "delete_vm": {
@@ -35,6 +41,10 @@
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
       "VM_NAME": "The name of the virtual machine to delete"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "start_vm": {
@@ -50,6 +60,10 @@
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
       "VM_NAME": "The name of the virtual machine to start"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "stop_vm": {
@@ -65,7 +79,11 @@
     },
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
-      "VM_NAME": "The name of the virtual machine to start"
+      "VM_NAME": "The name of the virtual machine to stop"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "deallocate_vm": {
@@ -82,6 +100,10 @@
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
       "VM_NAME": "The name of the virtual machine to deallocate"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "restart_vm": {
@@ -98,6 +120,10 @@
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
       "VM_NAME": "The name of the virtual machine to restart"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "redeploy_vm": {
@@ -114,13 +140,17 @@
     "param_description": {
       "RESOURCE_GROUP_NAME": "The name of the resource group containing the VM",
       "VM_NAME": "The name of the virtual machine to redeploy"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup",
+      "VM_NAME": "defaultVM"
     }
   },
   "create_resource_group": {
     "patterns": [
       "create resource group",
       "create group",
-      "group resource",
+      "create a group resource",
       "group"
     ],
     "command": "az group create --name {RESOURCE_GROUP_NAME} --location {REGION}",
@@ -130,7 +160,29 @@
     },
     "param_description": {
       "REGION": "The location of the resources",
-      "RESOURCE_GROUP_NAME": "The name of the group resource"
+      "RESOURCE_GROUP_NAME": "The name of the resource group"
+    },
+    "default_params": {
+      "REGION": "eastus",
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup"
+    }
+  },
+    "delete_resource_group": {
+    "patterns": [
+      "delete resource group",
+      "remove group",
+      "delete group",
+      "remove resource group"
+    ],
+    "command": "az group delete --name {RESOURCE_GROUP_NAME} --yes",
+    "param_patterns": {
+      "RESOURCE_GROUP_NAME": "name[d:\\s]+(\\w+)|groupname[d:\\s]+(\\w+)|resource\\s+group\\s+(\\w+)"
+    },
+    "param_description": {
+      "RESOURCE_GROUP_NAME": "The name of the resource group to delete"
+    },
+    "default_params": {
+      "RESOURCE_GROUP_NAME": "defaultResourceGroup"
     }
   }
 }
